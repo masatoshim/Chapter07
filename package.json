@@ -3,10 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
     "cra-template-typescript": "1.2.0",
     "react": "^18",
     "react-dom": "^18",
-    "react-scripts": "5.0.1"
+    "react-hook-form": "^7.66.1",
+    "react-router-dom": "^7.9.6",
+    "react-scripts": "5.0.1",
+    "zod": "^4.1.12"
   },
   "scripts": {
     "start": "react-scripts start",
