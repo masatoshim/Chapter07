@@ -1,19 +1,21 @@
 import classes from '../styles/Detail.module.scss'
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { ParamsType, PostType, BlogType } from './common';
+
 
 export default function DetailPage() {
-  const { id } = useParams();
+  const { id } = useParams<ParamsType>();
 
-  const [post, setPost] = useState(null);
-  const [fetched, setFetched] = useState(false);
+  const [post, setPost] = useState<PostType | null>(null);
+  const [fetched, setFetched] = useState<boolean>(false);
   
   // APIでpostsを取得する処理をuseEffectで実行します。
   useEffect(() => {
     const fetcher = async () => {
       setFetched(false);
       const res = await fetch(`https://1hmfpsvto6.execute-api.ap-northeast-1.amazonaws.com/dev/posts/${id}`);
-      const data = await res.json();
+      const data = await res.json() as BlogType;
       setPost(data.post);
       setFetched(true);
     };

@@ -1,8 +1,8 @@
 import './App.css';
-import HomePage from './components/HomePage.js';
-import DetailPage from './components/DetailPage.js'
-import ContactPage from './components/ContactPage.js';
-import { Link,Routes, Route } from "react-router-dom";
+import HomePage from './components/HomePage';
+import DetailPage from './components/DetailPage'
+import ContactPage from './components/ContactPage';
+import { Link, Routes, Route } from "react-router-dom";
 
 export default function App() {
   return (

@@ -1,9 +1,16 @@
 import classes from '../styles/Contact.module.scss'
-import { useForm } from 'react-hook-form';
+import { useForm, UseFormReturn  } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { ContactType } from './common';
 
-const userSchema = z.object({
+type UserSchemaType = {
+  "name": z.ZodString,
+  "email": z.ZodString,
+  "message": z.ZodString
+}
+
+const userSchema: z.ZodObject<UserSchemaType> = z.object({
   name: z.string().nonempty("お名前は必須です").max(30, "名前は30文字以内にしてください。"),
   email: z.string().nonempty("メールアドレスは必須です。").email("メールアドレスの形式が正しくありません。"),
   message: z.string().nonempty("本文は必須です。").max(500, "本文は500文字以内にしてください。"),
@@ -11,13 +18,14 @@ const userSchema = z.object({
 
 export default function ContactPage() {
 
-  const { register, handleSubmit, formState: { errors, isSubmitting }, reset} = useForm({
-    resolver: zodResolver(userSchema)
+  type UserFormData = z.infer<typeof userSchema>;
+  const { register, handleSubmit, formState: { errors, isSubmitting }, reset}: UseFormReturn<UserFormData> = useForm<UserFormData>({
+    resolver: zodResolver(userSchema),
   });
 
-  const onsubmit = async data => {
+  const onsubmit = async (data: ContactType) => {
     try {
-      const response = await fetch('https://1hmfpsvto6.execute-api.ap-northeast-1.amazonaws.com/dev/contacts', {
+      const response: Response = await fetch('https://1hmfpsvto6.execute-api.ap-northeast-1.amazonaws.com/dev/contacts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -63,7 +71,7 @@ export default function ContactPage() {
           <div className={classes.parameter}>
             <label htmlFor="message" className={classes.parameterTitle}>本文</label>
             <div className={classes.wFull}>
-              <textarea id="message" rows="8" className={classes.inputTypeTextArea}
+              <textarea id="message" rows={8} className={classes.inputTypeTextArea}
                 {...register('message')} />
               <div className={classes.errorText}>{errors.message?.message}</div>
             </div>

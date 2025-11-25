@@ -1,17 +1,18 @@
 import classes from '../styles/Home.module.scss'
 import { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
+import { PostType, BlogListType } from './common';
 
 export default function HomePage() {
-  const [posts, setPosts] = useState([]);
-  const [fetched, setFetched] = useState(false);
+  const [posts, setPosts] = useState<Array<PostType>>([]);
+  const [fetched, setFetched] = useState<boolean>(false);
 
   // APIでpostsを取得する処理をuseEffectで実行します。
   useEffect(() => {
     const fetcher = async () => {
       setFetched(false);
       const res = await fetch("https://1hmfpsvto6.execute-api.ap-northeast-1.amazonaws.com/dev/posts");
-      const data = await res.json();
+      const data = await res.json() as BlogListType;
       setPosts(data.posts);
       setFetched(true);
     };
