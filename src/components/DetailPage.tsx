@@ -1,7 +1,7 @@
 import classes from '../styles/Detail.module.scss'
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { ParamsType, PostType, BlogType } from './common';
+import { PostType, BlogType } from './common';
 
 // 投稿を取得する関数
 const fetchPost: (id?: string) => Promise<BlogType> = async (id?: string) => {

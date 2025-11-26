@@ -18,8 +18,7 @@ const userSchema: z.ZodObject<UserSchemaType> = z.object({
 
 export default function ContactPage() {
 
-  type UserFormData = z.infer<typeof userSchema>;
-  const { register, handleSubmit, formState: { errors, isSubmitting }, reset}: UseFormReturn<UserFormData> = useForm<UserFormData>({
+  const { register, handleSubmit, formState: { errors, isSubmitting }, reset}: UseFormReturn<z.infer<typeof userSchema>> = useForm({
     resolver: zodResolver(userSchema),
   });
 
