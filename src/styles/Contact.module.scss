@@ -32,6 +32,7 @@
   border-radius: 0.5rem;
   padding: 1rem;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .inputTypeTextArea {
@@ -39,6 +40,7 @@
   border: 1px solid #D1D5DB;
   border-radius: 0.5rem;
   padding: 1rem;
+  box-sizing: border-box;
 }
 
 .errorText {

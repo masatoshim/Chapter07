@@ -3,27 +3,32 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { ParamsType, PostType, BlogType } from './common';
 
+// 投稿を取得する関数
+const fetchPost: (id?: string) => Promise<BlogType> = async (id?: string) => {
+  if (!id) throw new Error("Post ID is required");
+  const res: Response = await fetch(`https://1hmfpsvto6.execute-api.ap-northeast-1.amazonaws.com/dev/posts/${id}`);
+  if (!res.ok) throw new Error(res.statusText);
+  return await res.json() as BlogType;
+};
 
 export default function DetailPage() {
-  const { id } = useParams<ParamsType>();
-
+  const { id } = useParams<string>();
   const [post, setPost] = useState<PostType | null>(null);
   const [fetched, setFetched] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
   
-  // APIでpostsを取得する処理をuseEffectで実行します。
+  // APIでpostを取得する処理をuseEffectで実行します。
   useEffect(() => {
-    const fetcher = async () => {
-      setFetched(false);
-      const res = await fetch(`https://1hmfpsvto6.execute-api.ap-northeast-1.amazonaws.com/dev/posts/${id}`);
-      const data = await res.json() as BlogType;
-      setPost(data.post);
-      setFetched(true);
-    };
-    fetcher();
+    setFetched(false);
+    fetchPost(id)
+      .then(result => setPost(result.post))
+      .catch(err => setError(err.message))
+      .finally(() => setFetched(true));
   }, [id]);
 
   if (!fetched) return <div>読み込み中...</div>;
   if (!post) return <div>投稿が見つかりません</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className={classes.container}>

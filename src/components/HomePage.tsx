@@ -3,24 +3,30 @@ import { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import { PostType, BlogListType } from './common';
 
+// 投稿リストを取得する関数
+const fetchPosts: () => Promise<BlogListType> = async () => {
+  const res: Response = await fetch(`https://1hmfpsvto6.execute-api.ap-northeast-1.amazonaws.com/dev/posts`);
+  if (!res.ok) throw new Error(res.statusText);
+  return await res.json() as BlogListType; 
+};
+
 export default function HomePage() {
   const [posts, setPosts] = useState<Array<PostType>>([]);
   const [fetched, setFetched] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
 
   // APIでpostsを取得する処理をuseEffectで実行します。
   useEffect(() => {
-    const fetcher = async () => {
-      setFetched(false);
-      const res = await fetch("https://1hmfpsvto6.execute-api.ap-northeast-1.amazonaws.com/dev/posts");
-      const data = await res.json() as BlogListType;
-      setPosts(data.posts);
-      setFetched(true);
-    };
-    fetcher();
+    setFetched(false);
+    fetchPosts()
+      .then(result => setPosts(result.posts))
+      .catch(err => setError(err.message))
+      .finally(() => setFetched(true));
   }, []);
 
   if (!fetched) return <div>読み込み中...</div>;
   if (!posts) return <div>投稿が見つかりません</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <>
