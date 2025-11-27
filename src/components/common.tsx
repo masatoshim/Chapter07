@@ -3,13 +3,13 @@ export type PostType = {
     "title": string,
     "thumbnailUrl": string,
     "createdAt": string,
-    "categories": Array<string>,
+    "categories": string[],
     "content": string
 };
 
 export type BlogListType = {
   "message": string,
-  "posts": Array<PostType>
+  "posts": PostType[]
 };
 
 export type BlogType = {

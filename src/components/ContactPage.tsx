@@ -22,7 +22,7 @@ export default function ContactPage() {
     resolver: zodResolver(userSchema),
   });
 
-  const onsubmit: (data: ContactType) => Promise<void> = async (data: ContactType) => {
+  const onsubmit: (data: ContactType) => Promise<void> = async (data) => {
     try {
       const response: Response = await fetch('https://1hmfpsvto6.execute-api.ap-northeast-1.amazonaws.com/dev/contacts', {
         method: 'POST',

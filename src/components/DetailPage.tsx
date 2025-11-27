@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { PostType, BlogType } from './common';
 
 // 投稿を取得する関数
-const fetchPost: (id?: string) => Promise<BlogType> = async (id?: string) => {
+const fetchPost: (id?: string) => Promise<BlogType> = async (id?) => {
   if (!id) throw new Error("Post ID is required");
   const res: Response = await fetch(`https://1hmfpsvto6.execute-api.ap-northeast-1.amazonaws.com/dev/posts/${id}`);
   if (!res.ok) throw new Error(res.statusText);

@@ -11,7 +11,7 @@ const fetchPosts: () => Promise<BlogListType> = async () => {
 };
 
 export default function HomePage() {
-  const [posts, setPosts] = useState<Array<PostType>>([]);
+  const [posts, setPosts] = useState<PostType[]>([]);
   const [fetched, setFetched] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
 
@@ -25,7 +25,7 @@ export default function HomePage() {
   }, []);
 
   if (!fetched) return <div>読み込み中...</div>;
-  if (!posts) return <div>投稿が見つかりません</div>;
+  if (posts.length === 0) return <div>投稿が見つかりません</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
